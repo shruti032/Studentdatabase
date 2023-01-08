@@ -1,0 +1,42 @@
+import sqlite3
+
+# Connect to the database
+conn = sqlite3.connect("SCHOOL-DB")
+c = conn.cursor()
+
+# Create the STUDENT-TABLE table
+c.execute(
+  """CREATE TABLE STUDENT-TABLE (
+    Roll-No INTEGER PRIMARY KEY,
+    Full-Name TEXT NOT NULL,
+    Class TEXT NOT NULL,
+    Birth-Date DATE NOT NULL,
+    Address TEXT NOT NULL,
+    Enrollment-Date DATE NOT NULL
+  );"""
+)
+
+def enroll_student():
+  # Collect input from the user
+  roll_no = input("Enter roll number: ")
+  full_name = input("Enter full name: ")
+  class_ = input("Enter class: ")
+  birth_date = input("Enter birth date: ")
+  address = input("Enter address: ")
+  enrollment_date = input("Enter enrollment date: ")
+
+  # Insert the input data into the STUDENT-TABLE table
+  c.execute("INSERT INTO STUDENT-TABLE (Roll-No, Full-Name, Class, Birth-Date, Address, Enrollment-Date) VALUES (?, ?, ?, ?, ?, ?)", (roll_no, full_name, class_, birth_date, address, enrollment_date))
+
+  # Commit the transaction
+  conn.commit()
+
+# Prompt the user to enroll a new student
+while True:
+  enroll_student()
+  choice = input("Enter 'q' to quit, or any other key to continue: ")
+  if choice == 'q':
+    break
+
+# Close the connection
+conn.close()
